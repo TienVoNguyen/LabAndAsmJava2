@@ -2,9 +2,9 @@ package lab3;
 
 import java.util.List;
 
-public interface StudentInterface {
+public interface StudentInterface<E>{
 
-    public void insert(Student s);
+    public void insert(E t);
 
     public void delete(int viTri);
 
@@ -12,7 +12,7 @@ public interface StudentInterface {
 
     public List<Student> getList();
 
-    public void setList(List<Student> list);
+    public void setList(List<E> list);
 
     public List<Student> sortList(String chon);
 }
