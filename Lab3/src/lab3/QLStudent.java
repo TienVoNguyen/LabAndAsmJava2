@@ -3,7 +3,7 @@ package lab3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLStudent implements StudentInterface {
+public class QLStudent<E> extends Student implements StudentInterface {
 
     private List<Student> lst;
 
@@ -29,8 +29,8 @@ public class QLStudent implements StudentInterface {
     }
 
     @Override
-    public void insert(Student s) {
-        lst.add(s);
+    public void insert(Object e) {
+        lst.add((Student) e);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class QLStudent implements StudentInterface {
     }
 
     @Override
-    public void setList(List<Student> list) {
+    public void setList(List list) {
         this.lst = list;
     }
     //https://phamlinh02.github.io/jekyll/update/2021/07/27/gitAndGithub.htmlgot
