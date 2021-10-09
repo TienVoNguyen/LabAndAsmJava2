@@ -236,7 +236,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
 
         lblRecord.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblRecord.setForeground(new java.awt.Color(204, 0, 51));
-        lblRecord.setText("Record: 1 of 10");
+        lblRecord.setText("Record: 0 of 0");
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel10.setText("(dd/mm/yyyy)");
@@ -459,11 +459,8 @@ public class EmployeeFrom extends javax.swing.JFrame {
         data.start();
         oclock.start();
         ql = new QLEmployee();
-        ql.openFile();
         fillTable();
-        selectFrom(0);
-
-
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -523,8 +520,11 @@ public class EmployeeFrom extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
+        
         ql.openFile();
         fillTable();
+        selectFrom(0);
+        
     }//GEN-LAST:event_btnOpenActionPerformed
 
     public static void main(String args[]) {
