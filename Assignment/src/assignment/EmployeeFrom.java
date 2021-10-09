@@ -4,17 +4,18 @@ import assignment.model.Employee;
 import assignment.model.EmployeeInterface;
 import assignment.model.QLEmployee;
 import assignment.thread.OclockThread;
-import assignment.thread.ShareData;
+import assignment.thread.RunText;
 import assignment.validation.Validation;
 import java.awt.Color;
 import static java.lang.String.format;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static java.lang.String.format;
 
 public class EmployeeFrom extends javax.swing.JFrame {
 
-    private ShareData data;
+    
     private EmployeeInterface ql;
     private DefaultTableModel tblModel;
     private int position = 0;
@@ -454,7 +455,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         OclockThread oclock = new OclockThread(lblTime);
-        data = new ShareData(this, jPanel2);
+        RunText data = new RunText(this, jPanel2);
         data.start();
         oclock.start();
         ql = new QLEmployee();

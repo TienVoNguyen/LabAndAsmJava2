@@ -6,13 +6,13 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ShareData extends Thread {
+public class RunText extends Thread {
 
     public JLabel lbl = new JLabel();
     public JPanel p;
     public EmployeeFrom e;
 
-    public ShareData(EmployeeFrom e, JPanel p) {
+    public RunText(EmployeeFrom e, JPanel p) {
         this.e = e;
         this.p = p;
         add();
@@ -44,7 +44,7 @@ public class ShareData extends Thread {
                         Thread.sleep(7);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
-                        Logger.getLogger(ShareData.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(RunText.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class ShareData extends Thread {
                 Thread.sleep(7);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
-                Logger.getLogger(ShareData.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RunText.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
