@@ -17,15 +17,16 @@ public class OclockThread extends Thread{
     @Override
     public void run() {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss aa");
-        try {
+        
             do {
+            try {
                 dd = new Date();
                 String st = sdf.format(dd);
                 lbTime.setText(st);
                 Thread.sleep(1000);
-            } while (isAlive());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            } while (isAlive());        
     }
 }

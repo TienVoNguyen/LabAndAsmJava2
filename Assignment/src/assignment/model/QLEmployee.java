@@ -1,12 +1,10 @@
-
 package assignment.model;
 
 import assignment.file.XFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLEmployee implements EmployeeInterface<Employee>{
-    
+public class QLEmployee implements EmployeeInterface<Employee> {
     List<Employee> lst;
 
     public QLEmployee() {
@@ -14,20 +12,18 @@ public class QLEmployee implements EmployeeInterface<Employee>{
     }
 
     @Override
-    public int save(Employee e) {        
+    public int save(Employee e) {
         int position = findById(e.getId());
-        
-        if (position < 0 ) {
+        if (position < 0) {
             lst.add(e);
-        }else {
-        lst.set(position,e);
+        } else {
+            lst.set(position, e);
         }
-        
         return position;
     }
 
     @Override
-    public int delete(String id) {        
+    public int delete(String id) {
         int position = -1;
         for (int i = 0; i < lst.size(); i++) {
             Employee e = lst.get(i);
@@ -37,8 +33,7 @@ public class QLEmployee implements EmployeeInterface<Employee>{
                 break;
             }
         }
-        
-        return position;              
+        return position;
     }
 
     @Override
@@ -51,10 +46,8 @@ public class QLEmployee implements EmployeeInterface<Employee>{
                 break;
             }
         }
-        
         return position;
     }
-
 
     @Override
     public List<Employee> getEmployeeList() {
@@ -62,21 +55,21 @@ public class QLEmployee implements EmployeeInterface<Employee>{
     }
 
     @Override
-    public Employee getEmployeeByPosition(int index) throws Exception{
+    public Employee getEmployeeByPosition(int index) throws Exception {
         if (index < 0) {
             return null;
-        }       
+        }
         return lst.get(index);
     }
 
     @Override
-    public List<Employee> openFile() {
-        lst = (List<Employee>) XFile.read("employee.dat");
+    public List<Employee> openFile() throws Exception {
+        lst = new ArrayList<>((List<Employee>) XFile.read("employee.dat"));        
         return lst;
     }
 
     @Override
-    public void saveFile() {
+    public void saveFile() throws Exception {
         XFile.write("employee.dat", lst);
     }
 
@@ -84,7 +77,5 @@ public class QLEmployee implements EmployeeInterface<Employee>{
     public int countEmployee() {
         return lst.size();
     }
-    
-    
-   
+
 }
