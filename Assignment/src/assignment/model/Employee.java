@@ -40,11 +40,10 @@ public class Employee implements Serializable{
     public int getAge() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         ParsePosition position = new ParsePosition(0);
-        sdf.setLenient(false);
-        Date dd = (sdf.parse(date, position));
         Date now = new Date();
-        int age = now.getYear() - dd.getYear();
-        
+        sdf.setLenient(false);
+        Date dd = (sdf.parse(date, position));        
+        int age = now.getYear() - dd.getYear();        
         return age;
     }
 

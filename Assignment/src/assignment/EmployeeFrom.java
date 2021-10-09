@@ -7,15 +7,15 @@ import assignment.thread.OclockThread;
 import assignment.thread.RunText;
 import assignment.validation.Validation;
 import java.awt.Color;
-import static java.lang.String.format;
+import java.io.FileNotFoundException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static java.lang.String.format;
+import java.util.ArrayList;
 
 public class EmployeeFrom extends javax.swing.JFrame {
 
-    
     private EmployeeInterface ql;
     private DefaultTableModel tblModel;
     private int position = 0;
@@ -236,7 +236,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
 
         lblRecord.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblRecord.setForeground(new java.awt.Color(204, 0, 51));
-        lblRecord.setText("Record: 1 of 10");
+        lblRecord.setText("Record: 0 of 0");
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel10.setText("(dd/mm/yyyy)");
@@ -459,10 +459,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
         data.start();
         oclock.start();
         ql = new QLEmployee();
-        ql.openFile();
         fillTable();
-        selectFrom(0);
-
 
     }//GEN-LAST:event_formWindowOpened
 
@@ -483,9 +480,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
     }//GEN-LAST:event_tblEmployeesMouseClicked
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
-        if (findById()) {
-            return;
-        }
+        findById();
     }//GEN-LAST:event_btnFindActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
@@ -515,16 +510,35 @@ public class EmployeeFrom extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        if (Question("Bạn có muốn thoát không?")) {
+        if (Question("Bạn muốn lưu và thoát?")) {
             return;
         }
-        ql.saveFile();
+        try {
+                ql.saveFile();
+                JOptionPane.showMessageDialog(this, "Ghi file thành công!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Ghi file thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }        
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
-
+    boolean kt = true;
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
-        ql.openFile();
-        fillTable();
+        try {
+            if(kt){
+            ql.openFile();
+            fillTable();
+            selectFrom(0);
+            kt = false;
+            }
+            return;
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy File!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "File chưa có dữ liệu!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnOpenActionPerformed
 
     public static void main(String args[]) {
@@ -600,8 +614,7 @@ public class EmployeeFrom extends javax.swing.JFrame {
     private void fillTable() {
         tblModel = (DefaultTableModel) tblEmployees.getModel();
         tblModel.setRowCount(0);
-
-        List<Employee> lst = ql.getEmployeeList();
+        List<Employee> lst = new ArrayList<>(ql.getEmployeeList());
         for (Employee e : lst) {
             Object[] rowData = {e.getId(), e.getName(),
                 e.getAge(), e.getDate(), e.getEmail(),
@@ -616,7 +629,6 @@ public class EmployeeFrom extends javax.swing.JFrame {
             tblEmployees.getColumnModel().getColumn(5).setPreferredWidth(130);
             tblModel.addRow(rowData);
         }
-
     }
 
     private void resetFrom() {
@@ -637,12 +649,12 @@ public class EmployeeFrom extends javax.swing.JFrame {
         btnPrevious.setEnabled(true);
         btnLast.setEnabled(true);
         btnNext.setEnabled(true);
-
     }
 
     private void selectFrom(int index) {
         Employee e;
         try {
+            position = index;
             e = (Employee) ql.getEmployeeByPosition(index);
             txtStaffId.setText(e.getId());
             txtStaffId.setEditable(false);
@@ -715,7 +727,6 @@ public class EmployeeFrom extends javax.swing.JFrame {
         if (Validation.isNotNumber(txtSalary, "Lương phải đúng định dạng và luong > 5 triệu!")) {
             return true;
         };
-
         return false;
     }
 
@@ -736,11 +747,9 @@ public class EmployeeFrom extends javax.swing.JFrame {
 
     private boolean Question(String mess) {
         int choice = JOptionPane.showConfirmDialog(this, mess, "Question", JOptionPane.YES_NO_OPTION);
-
         if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CLOSED_OPTION) {
             return true;
         }
-
         return false;
     }
 

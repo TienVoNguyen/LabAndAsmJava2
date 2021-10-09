@@ -15,9 +15,9 @@ public interface EmployeeInterface<E> {
     
     public E getEmployeeByPosition (int index)throws Exception;
     
-    List<E> openFile();
+    List<E> openFile() throws Exception;
     
-    public void saveFile();
+    public void saveFile() throws Exception;
     
     public int countEmployee();
 }

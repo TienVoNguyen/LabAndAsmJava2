@@ -14,7 +14,8 @@ import java.util.logging.Logger;
  * @author Dinh Van
  */
 public class XSKT extends javax.swing.JFrame {
-
+    boolean k = true;
+    Thread chuchay;
     private Thread tram, chuc, dv;
 
     public XSKT() {
@@ -41,6 +42,7 @@ public class XSKT extends javax.swing.JFrame {
         btnTram = new javax.swing.JButton();
         btnChuc = new javax.swing.JButton();
         btnDV = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -51,7 +53,13 @@ public class XSKT extends javax.swing.JFrame {
 
         lblchuchay.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblchuchay.setForeground(java.awt.Color.red);
+        lblchuchay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblchuchay.setText("XỔ SỐ KIẾN THIẾT");
+        lblchuchay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblchuchayMouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel2.setForeground(java.awt.Color.red);
@@ -113,20 +121,28 @@ public class XSKT extends javax.swing.JFrame {
             }
         });
 
+        btnReset.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblchuchay)
+                .addGap(68, 68, 68)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTram)
+                    .addComponent(btnTram))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnReset)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTram)
-                            .addComponent(btnTram))
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(btnChuc)
@@ -139,10 +155,13 @@ public class XSKT extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btnDV)
                                     .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblchuchay, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnChuc, btnDV, btnTram, txtChuc, txtDV, txtTram});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnChuc, btnDV, btnReset, btnTram, txtChuc, txtDV, txtTram});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,8 +183,12 @@ public class XSKT extends javax.swing.JFrame {
                     .addComponent(btnTram)
                     .addComponent(btnChuc)
                     .addComponent(btnDV))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(btnReset)
+                .addGap(19, 19, 19))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnChuc, btnReset});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -183,19 +206,54 @@ public class XSKT extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDVActionPerformed
 
     private void btnTramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramActionPerformed
-
+        Thread tram = new Thread(() -> {
+            Random random = new Random();
+            for (int i = 0; i < 1000; i++) {
+                try {
+                    int rad = random.nextInt(9);
+                    txtTram.setText(String.valueOf(rad));
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         tram.start();
         btnTram.setEnabled(false);
     }//GEN-LAST:event_btnTramActionPerformed
 
     private void btnChucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChucActionPerformed
+        Thread chuc = new Thread(() -> {
+            Random random = new Random();
+
+            for (int i = 0; i < 1000; i++) {
+                try {
+                    int rad = random.nextInt(9);
+                    txtChuc.setText(String.valueOf(rad));
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         btnChuc.setEnabled(false);
         chuc.start();
 
     }//GEN-LAST:event_btnChucActionPerformed
 
     private void btnDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDVActionPerformed
-
+        Thread dv = new Thread(() -> {
+            Random random = new Random();
+            for (int i = 0; i < 1000; i++) {
+                try {
+                    int rad = random.nextInt(9);
+                    txtDV.setText(String.valueOf(rad));
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         dv.start();
         btnDV.setEnabled(false);
     }//GEN-LAST:event_btnDVActionPerformed
@@ -207,6 +265,26 @@ public class XSKT extends javax.swing.JFrame {
         txtDV.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         khoiTaoThread();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        txtDV.setText("");
+        txtChuc.setText("");
+        txtTram.setText("");
+        btnTram.setEnabled(true);
+        btnDV.setEnabled(true);
+        btnChuc.setEnabled(true);
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void lblchuchayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblchuchayMouseClicked
+        
+        if(k){
+            k=false;
+            chuchay.suspend();
+        }else {
+            chuchay.resume();
+            k= true;
+        }
+    }//GEN-LAST:event_lblchuchayMouseClicked
 
     /**
      * @param args the command line arguments
@@ -246,6 +324,7 @@ public class XSKT extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChuc;
     private javax.swing.JButton btnDV;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnTram;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -257,61 +336,11 @@ public class XSKT extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void khoiTaoThread() {
-        tram = new Thread(new Runnable() {
+        chuchay = new Thread() {
             @Override
             public void run() {
-                Random random = new Random();
-                for (int i = 0; i < 1000; i++) {
-                    try {
-                        int rad = random.nextInt(9);
-                        txtTram.setText(String.valueOf(rad));
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        });
-        chuc = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Random random = new Random();
-
-                for (int i = 0; i < 1000; i++) {
-                    try {
-                        int rad = random.nextInt(9);
-                        txtChuc.setText(String.valueOf(rad));
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        });
-        dv = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Random random = new Random();
-                for (int i = 0; i < 1000; i++) {
-                    try {
-                        int rad = random.nextInt(9);
-                        txtDV.setText(String.valueOf(rad));
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(XSKT.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        });
-        
-        Thread chuchay = new Thread(){
-            @Override
-            public void run() {                
                 String txt = lblchuchay.getText() + "  ";
-                while (true) {                    
+                while (true) {
                     try {
                         txt = txt.substring(1, txt.length()) + txt.charAt(0);
                         Thread.sleep(500);
@@ -321,8 +350,9 @@ public class XSKT extends javax.swing.JFrame {
                     lblchuchay.setText(txt);
                 }
             }
-            
+
         };
         chuchay.start();
+
     }
 }
