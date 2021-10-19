@@ -5,6 +5,7 @@
  */
 package lab6;
 
+import java.awt.Color;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -338,7 +339,7 @@ public class XSKT extends javax.swing.JFrame {
     public void khoiTaoThread() {
         chuchay = new Thread() {
             @Override
-            public void run() {
+            public void run() {                
                 String txt = lblchuchay.getText() + "  ";
                 while (true) {
                     try {
