@@ -77,5 +77,10 @@ public class QLEmployee implements EmployeeInterface<Employee> {
     public int countEmployee() {
         return lst.size();
     }
+    
+    @Override
+    public void setEmployeeList (List<Employee> lst) {
+        this.lst.addAll(lst);
+    }
 
 }

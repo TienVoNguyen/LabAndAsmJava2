@@ -510,12 +510,19 @@ public class EmployeeFrom extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        if (Question("Bạn muốn lưu và thoát?")) {
+        if (Question("Bạn muốn thoát?")) {
             return;
         }
         try {
-                ql.saveFile();
-                JOptionPane.showMessageDialog(this, "Ghi file thành công!");
+                List<Employee> lst = new ArrayList<>();
+                        lst.addAll(ql.getEmployeeList());
+                if (!lst.isEmpty()) {
+                    if (kt) {
+                        lst.addAll(ql.openFile());
+                    }
+                    ql.saveFile();
+                    JOptionPane.showMessageDialog(this, "Ghi file thành công!");
+                }                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Ghi file thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
@@ -526,12 +533,14 @@ public class EmployeeFrom extends javax.swing.JFrame {
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         try {
             if(kt){
-            ql.openFile();
-            fillTable();
-            selectFrom(0);
-            kt = false;
+                ql.openFile();
+                fillTable();
+                selectFrom(0);
+                JOptionPane.showMessageDialog(this, "Mở file thành công!");
+                kt = false;
+            }else {
+                JOptionPane.showMessageDialog(this, "File đã được mở!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            return;
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Không tìm thấy File!", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NullPointerException e) {
@@ -706,12 +715,12 @@ public class EmployeeFrom extends javax.swing.JFrame {
 
         if (Validation.iEmpty(txtDate, "Ngày sinh không được để trống!")) {
             return true;
-        };
-
+        }; 
+        
         if (Validation.isNotDOB(txtDate, "Ngày sinh phải đúng định dạng và 16 < tuổi < 55!")) {
             return true;
         };
-
+        
         if (Validation.iEmpty(txtEmail, "Email không được để trống!")) {
             return true;
         };
@@ -756,7 +765,8 @@ public class EmployeeFrom extends javax.swing.JFrame {
     private boolean save() {
         if (validation()) {
             return true;
-        }
+         }
+        
         if (Question("Bạn có muốn cập nhật / thêm mới?")) {
             return true;
         }
